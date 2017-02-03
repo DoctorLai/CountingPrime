@@ -38,8 +38,16 @@ int Parallel1(int n) {
 	return s;
 }
 
+int Parallel2(int n) {
+	volatile long s = 0;
+	Concurrency::parallel_for(0, n, [&](int i) {
+		InterlockedAdd(&s, IsPrime(i));
+	});
+	return s;
+}
+
 int main() {
-	DWORD serial, parallel1, s;
+	DWORD serial, parallel1, parallel2, s;
 	DWORD startTime = GetTickCount();
 	s = Single(MAXN);
 	cout << s << endl;
@@ -50,7 +58,14 @@ int main() {
 	parallel1 = GetTickCount() - startTime;
 	cout << s << endl;
 
+	startTime = GetTickCount();
+	s = Parallel2(MAXN);
+	parallel2 = GetTickCount() - startTime;
+	cout << s << endl;
+
 	cout << "Serial = " << serial << endl;
 	cout << "Parallel1 = " << parallel1 << endl;
+	cout << "Parallel2 = " << parallel2 << endl;
+
 	return 0;
 }
