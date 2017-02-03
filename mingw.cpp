@@ -1,3 +1,7 @@
+/*
+	MingGW with OpenMP
+	https://codingforspeed.com/integer-performance-comparison-for-c-c-delphi/
+*/
 #include <math.h>
 #include <iostream>
 #include <windows.h>
